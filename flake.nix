@@ -11,7 +11,7 @@
         bootpath = if system == "x86_64-darwin"
                    then "${pkgs.chez-racket}/lib/csv${pkgs.chez-racket.version}/ta6osx"
                    else if system == "aarch64-darwin"
-                        then "${pkgs.chez-racket}/lib/csv${pkgs.chez-racket.version}/tarm64osx"
+                        then "${pkgs.chez-racket}/lib/csv9.5.7.2/tarm64osx"
                         else "${pkgs.chez-racket}/lib/csv${pkgs.chez-racket.version}/ta6le";
         platformSpecificInputs = if system == "x86_64-darwin"
                                  then [ pkgs.darwin.libiconv ]
