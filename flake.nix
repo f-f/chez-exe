@@ -8,11 +8,15 @@
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
         bootpath = if system == "x86_64-darwin"
-                   then "${pkgs.chez}/lib/csv${pkgs.chez.version}/ta6osx"
-                   else "${pkgs.chez}/lib/csv${pkgs.chez.version}/ta6le";
+                   then "${pkgs.chez-racket}/lib/csv${pkgs.chez-racket.version}/ta6osx"
+                   else if system == "aarch64-darwin"
+                        then "${pkgs.chez-racket}/lib/csv${pkgs.chez-racket.version}/tarm64osx"
+                        else "${pkgs.chez-racket}/lib/csv${pkgs.chez-racket.version}/ta6le";
         platformSpecificInputs = if system == "x86_64-darwin"
                                  then [ pkgs.darwin.libiconv ]
-                                 else [ pkgs.libuuid ];
+                                 else if system == "aarch64-darwin"
+                                      then [ pkgs.darwin.libiconv ]
+                                      else [ pkgs.libuuid ];
       in {
 
         packages.default = pkgs.stdenv.mkDerivation {
@@ -21,7 +25,7 @@
           src = ./.;
 
           buildInputs = with pkgs; [
-            chez
+            chez-racket
           ] ++ platformSpecificInputs;
 
           buildPhase = ''
