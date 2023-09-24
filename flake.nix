@@ -4,7 +4,8 @@
   };
 
   outputs = { self, nixpkgs, utils, ... }:
-    utils.lib.eachDefaultSystem (
+    let supportedSystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
+    in utils.lib.eachSystem supportedSystems (
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
         bootpath = if system == "x86_64-darwin"
